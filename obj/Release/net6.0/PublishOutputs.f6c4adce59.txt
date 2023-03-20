@@ -1,0 +1,5 @@
+C:\Users\User\OneDrive - student.newinti.edu.my\BCSSUT\Semester 4\COS30019 Introduction to Artificial Intelligence\repos\Robot Navigation Problem\bin\Release\net6.0\publish\Robot Navigation Problem.exe
+C:\Users\User\OneDrive - student.newinti.edu.my\BCSSUT\Semester 4\COS30019 Introduction to Artificial Intelligence\repos\Robot Navigation Problem\bin\Release\net6.0\publish\Robot Navigation Problem.dll
+C:\Users\User\OneDrive - student.newinti.edu.my\BCSSUT\Semester 4\COS30019 Introduction to Artificial Intelligence\repos\Robot Navigation Problem\bin\Release\net6.0\publish\Robot Navigation Problem.deps.json
+C:\Users\User\OneDrive - student.newinti.edu.my\BCSSUT\Semester 4\COS30019 Introduction to Artificial Intelligence\repos\Robot Navigation Problem\bin\Release\net6.0\publish\Robot Navigation Problem.runtimeconfig.json
+C:\Users\User\OneDrive - student.newinti.edu.my\BCSSUT\Semester 4\COS30019 Introduction to Artificial Intelligence\repos\Robot Navigation Problem\bin\Release\net6.0\publish\Robot Navigation Problem.pdb

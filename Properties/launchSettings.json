@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Robot Navigation Problem": {
+      "commandName": "Project",
+      "commandLineArgs": "test.txt gui"
+    }
+  }
+}
