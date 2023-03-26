@@ -233,7 +233,7 @@
                 Text = "Search Algorithm:",
                 AutoSize = true
             };
-            _searchAlgorithmDropdown.Items.AddRange(new object[] { "dfs", "bfs", "gbfs" });
+            _searchAlgorithmDropdown.Items.AddRange(new object[] { "dfs", "bfs", "gbfs", "as" });
             _searchAlgorithmDropdown.SelectedIndex = 0;
 
             _navbar.Controls.Add(searchAlgorithmDropdownLabel);
@@ -450,6 +450,10 @@
                         GreedyBestFirstSearch gbfs = new GreedyBestFirstSearch(_environment);
                         path = gbfs.Search(true);
                         break;
+                    case "as":
+                        AStarSearch astar = new AStarSearch(_environment);
+                        path = astar.Search(true);
+                        break;
                     default:
                         MessageBox.Show("Invalid algorithm", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         EnableAllInputs();
@@ -482,7 +486,7 @@
         public void IncreaseNumberOfNodes(int numberOfNodes)
         {
             _numberOfNodes += numberOfNodes;
-            _numberOfNodesInTreeLabel.Text = $"Number of nodes: {_numberOfNodes}";
+            _numberOfNodesInTreeLabel.Text = $"Number of nodes in search tree: {_numberOfNodes}";
         }
     }
 }

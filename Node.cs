@@ -6,6 +6,7 @@
         private bool _visited = false;
         private bool _inTree = false;
         private Node? _parent = null;
+        private int _cost = 0;
         private readonly Coordinate _coordinate;
 
         public NodeType Type 
@@ -30,6 +31,12 @@
         {
             get => _parent;
             set => _parent = value;
+        }
+
+        public int Cost
+        {
+            get => _cost;
+            set => _cost = value;
         }
 
         public Coordinate Coordinate => _coordinate;
@@ -58,6 +65,7 @@
             _visited = false;
             _inTree = false;
             _parent = null;
+            _cost = 0;
         }
     }
 }

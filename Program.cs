@@ -35,6 +35,9 @@
                     case "gbfs":
                         searchAlgorithm = new GreedyBestFirstSearch(e);
                         break;
+                    case "as":
+                        searchAlgorithm = new AStarSearch(e);
+                        break;
                     case "gui":
                         Gui.Run(e);
                         break;

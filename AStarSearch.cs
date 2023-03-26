@@ -1,10 +1,10 @@
 ﻿namespace Robot_Navigation_Problem
-{
-    internal class GreedyBestFirstSearch : SearchAlgorithm
+{    
+    internal class AStarSearch : SearchAlgorithm
     {
         private readonly PriorityQueue<Node, int> _priorityQueue;
 
-        public GreedyBestFirstSearch(Environment environment) : base(environment)
+        public AStarSearch(Environment environment) : base(environment)
         {
             _priorityQueue = new PriorityQueue<Node, int>();
         }
@@ -12,6 +12,7 @@
         public override string Search(bool isGui = false)
         {
             Node startNode = _environment.GetRobotNode();
+            startNode.Cost = 0;
             _priorityQueue.Enqueue(startNode, CalculateHeuristic(startNode));
             AddNodeCount();
             if (isGui) Gui.IncreaseNumberOfNodes();
@@ -79,11 +80,12 @@
                     foreach (Node neighbor in neighbors)
                     {
                         //push neighbor into the queue if it is already in tree
-                        if (!neighbor.Visited && !neighbor.InTree)
+                        if (!neighbor.Visited)
                         {
-                            _priorityQueue.Enqueue(neighbor, CalculateHeuristic(neighbor));
-                            neighbor.InTree = true;
+                            neighbor.Cost = currentNode.Cost + 1;
                             neighbor.Parent = currentNode;
+                            neighbor.InTree = true;
+                            _priorityQueue.Enqueue(neighbor, CalculateHeuristic(neighbor));
                             AddNodeCount();
                             if (isGui) Gui.IncreaseNumberOfNodes();
                         }
@@ -99,7 +101,8 @@
             List<Node> allGoalNodes = _environment.GetGoalNodes();
             //calculate the smallest manhattan distance between all node and the nearest goal node
             int minDistance = allGoalNodes.Select(goalNode => Math.Abs(goalNode.Coordinate.x - node.Coordinate.x) + Math.Abs(goalNode.Coordinate.y - node.Coordinate.y)).Min();
-            return minDistance;
+            return minDistance + node.Cost;
         }
+
     }
 }
