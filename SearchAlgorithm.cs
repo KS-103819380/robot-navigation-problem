@@ -17,7 +17,57 @@
             _numberOfNodes = 0;
         }
 
-        public abstract string Search(bool isGui = false);
+        public string Search(bool isGui = false)
+        {
+            Node startNode = _environment.GetRobotNode();
+            AddNodeToFrontier(startNode);
+            AddNodeCount();
+
+            if (isGui) 
+                Gui.IncreaseNumberOfNodes();
+
+            while (!NotFoundCondition())
+            {
+                Node currentNode = GetNodeFromFrontier();
+
+                if (isGui)
+                    ColorGuiGrid(startNode, currentNode, GetFrontier());
+
+                if (currentNode.Type == NodeType.Goal)
+                    return string.Join("; ", ConstructPath(currentNode)) + ";";
+
+                currentNode.Visited = true;
+                List<Node> neighbors = GetNeighbors(currentNode);
+                foreach (Node neighbor in neighbors)
+                {
+                    if (ShouldAddNodeToTree(neighbor))
+                    {
+                        neighbor.Cost = currentNode.Cost + 1;
+                        neighbor.Parent = currentNode;
+                        neighbor.InTree = true;
+                        AddNodeToFrontier(neighbor);
+                        AddNodeCount();
+                    }
+                }
+            }
+            
+            return NOT_FOUND;
+        }
+
+        public abstract void AddNodeToFrontier(Node node);
+
+        public abstract bool NotFoundCondition();
+
+        public abstract Node GetNodeFromFrontier();
+
+        public abstract bool ShouldAddNodeToTree(Node node);
+
+        public abstract IEnumerable<Node> GetFrontier();
+
+        protected virtual List<Node> GetNeighbors(Node node)
+        {
+            return _environment.GetNeighbors(node);
+        }
 
         /// <summary>
         /// Constructs a path from the start node to the goal node by tracing the parent nodes of the goal node
@@ -60,6 +110,67 @@
             if (count < 0)
                 throw new Exception("Count cannot be negative");
             _numberOfNodes += count;
+        }
+
+        /// <summary>
+        /// Colors the GUI grid based on the current node and the frontier, runs on every iteration
+        /// </summary>
+        /// <param name="startNode"></param>
+        /// <param name="currentNode"></param>
+        /// <param name="frontier"></param>
+        protected void ColorGuiGrid(Node startNode, Node currentNode, IEnumerable<Node> frontier)
+        {
+            Gui.IncrementIteration();
+
+            //set explored nodes to blue
+            for (int i = 0; i < _environment.Height; i++)
+            {
+                for (int j = 0; j < _environment.Width; j++)
+                {
+                    Node node = _environment.GetNode(j, i);
+                    if (node.Visited)
+                        Gui.ChangeCellColor(node.Coordinate, CustomBrush.Visited);
+                }
+            }
+
+            //set frontier to purple
+            foreach (Node node in frontier)
+            {
+                if (node.Type != NodeType.Goal)
+                    Gui.ChangeCellColor(node.Coordinate, CustomBrush.ToBeExplored);
+            }
+
+            //set current exploring path to yellow
+            List<string> path = ConstructPath(currentNode);
+            (int xOffset, int yOffset) = (0, 0);
+            foreach (string direction in path)
+            {
+                Gui.ChangeCellColor(startNode.Coordinate.x + xOffset, startNode.Coordinate.y + yOffset, CustomBrush.Path);
+                switch (direction)
+                {
+                    case "up":
+                        yOffset--;
+                        break;
+                    case "down":
+                        yOffset++;
+                        break;
+                    case "left":
+                        xOffset--;
+                        break;
+                    case "right":
+                        xOffset++;
+                        break;
+                }
+            }
+
+            //set start node to orange
+            Gui.ChangeCellColor(startNode.Coordinate, CustomBrush.StartNode);
+
+            //set current node to red
+            Gui.ChangeCellColor(currentNode.Coordinate, CustomBrush.CurrentNode);
+
+            Application.DoEvents();
+            Thread.Sleep(Gui.DurationPerIteration);
         }
     }
 }

@@ -157,7 +157,7 @@
             _iterationLabel.Text = "Iteration: 0";
 
             _numberOfNodes = 0;
-            _numberOfNodesInTreeLabel.Text = "Number of nodes: 0";
+            _numberOfNodesInTreeLabel.Text = "Number of nodes in search tree: 0";
 
             _searchButton.Text = "Start";
         }
