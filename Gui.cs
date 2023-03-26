@@ -233,7 +233,7 @@
                 Text = "Search Algorithm:",
                 AutoSize = true
             };
-            _searchAlgorithmDropdown.Items.AddRange(new object[] { "dfs", "bfs" });
+            _searchAlgorithmDropdown.Items.AddRange(new object[] { "dfs", "bfs", "gbfs" });
             _searchAlgorithmDropdown.SelectedIndex = 0;
 
             _navbar.Controls.Add(searchAlgorithmDropdownLabel);
@@ -445,6 +445,10 @@
                     case "bfs":
                         BreadthFirstSearch bfs = new BreadthFirstSearch(_environment);
                         path = bfs.Search(true);
+                        break;
+                    case "gbfs":
+                        GreedyBestFirstSearch gbfs = new GreedyBestFirstSearch(_environment);
+                        path = gbfs.Search(true);
                         break;
                     default:
                         MessageBox.Show("Invalid algorithm", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

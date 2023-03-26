@@ -32,6 +32,9 @@
                     case "bfs":
                         searchAlgorithm = new BreadthFirstSearch(e);
                         break;
+                    case "gbfs":
+                        searchAlgorithm = new GreedyBestFirstSearch(e);
+                        break;
                     case "gui":
                         Gui.Run(e);
                         break;
