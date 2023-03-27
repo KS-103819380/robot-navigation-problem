@@ -38,6 +38,10 @@
                     case "as":
                         searchAlgorithm = new AStarSearch(e);
                         break;
+                    case "cus1":
+                    case "ucs":
+                        searchAlgorithm = new UniformCostSearch(e);
+                        break;
                     case "gui":
                         Gui.Run(e);
                         break;

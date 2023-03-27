@@ -19,7 +19,7 @@
             return _queue.Dequeue();
         }
 
-        public override bool NotFoundCondition()
+        public override bool CheckIfPathNotFound()
         {
             return _queue.Count == 0;
         }

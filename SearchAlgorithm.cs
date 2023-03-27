@@ -26,16 +26,19 @@
             if (isGui) 
                 Gui.IncreaseNumberOfNodes();
 
-            while (!NotFoundCondition())
+            while (!CheckIfPathNotFound())
             {
                 Node currentNode = GetNodeFromFrontier();
+
+                if (currentNode.Visited)
+                    continue;
 
                 if (isGui)
                     ColorGuiGrid(startNode, currentNode, GetFrontier());
 
                 if (currentNode.Type == NodeType.Goal)
                     return string.Join("; ", ConstructPath(currentNode)) + ";";
-
+                
                 currentNode.Visited = true;
                 List<Node> neighbors = GetNeighbors(currentNode);
                 foreach (Node neighbor in neighbors)
@@ -47,6 +50,7 @@
                         neighbor.InTree = true;
                         AddNodeToFrontier(neighbor);
                         AddNodeCount();
+                        if (isGui) Gui.IncreaseNumberOfNodes();
                     }
                 }
             }
@@ -56,7 +60,7 @@
 
         public abstract void AddNodeToFrontier(Node node);
 
-        public abstract bool NotFoundCondition();
+        public abstract bool CheckIfPathNotFound();
 
         public abstract Node GetNodeFromFrontier();
 
@@ -74,7 +78,7 @@
         /// </summary>
         /// <param name="currentNode"></param>
         /// <returns>A list of path that contains element that are either "up", "down", "left", or "right"</returns>
-        protected static List<string> ConstructPath(Node currentNode)
+        private static List<string> ConstructPath(Node currentNode)
         {
             List<string> path = new List<string>();
 
@@ -105,7 +109,7 @@
             return path;
         }
 
-        protected void AddNodeCount(int count = 1)
+        private void AddNodeCount(int count = 1)
         {
             if (count < 0)
                 throw new Exception("Count cannot be negative");
@@ -118,7 +122,7 @@
         /// <param name="startNode"></param>
         /// <param name="currentNode"></param>
         /// <param name="frontier"></param>
-        protected void ColorGuiGrid(Node startNode, Node currentNode, IEnumerable<Node> frontier)
+        private void ColorGuiGrid(Node startNode, Node currentNode, IEnumerable<Node> frontier)
         {
             Gui.IncrementIteration();
 

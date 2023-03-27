@@ -233,7 +233,7 @@
                 Text = "Search Algorithm:",
                 AutoSize = true
             };
-            _searchAlgorithmDropdown.Items.AddRange(new object[] { "dfs", "bfs", "gbfs", "as" });
+            _searchAlgorithmDropdown.Items.AddRange(new object[] { "dfs", "bfs", "gbfs", "as", "ucs" });
             _searchAlgorithmDropdown.SelectedIndex = 0;
 
             _navbar.Controls.Add(searchAlgorithmDropdownLabel);
@@ -436,6 +436,7 @@
                 _searchButton.Text = "Finding...";
                 _environmentIsNew = false;
                 string path = "";
+                _durationPerIteration = _durationTextBox.Text == "" ? 0 : int.Parse(_durationTextBox.Text);
                 switch (_searchAlgorithmDropdown?.SelectedItem?.ToString())
                 {
                     case "dfs":
@@ -453,6 +454,10 @@
                     case "as":
                         AStarSearch astar = new AStarSearch(_environment);
                         path = astar.Search(true);
+                        break;
+                    case "ucs":
+                        UniformCostSearch ucs = new UniformCostSearch(_environment);
+                        path = ucs.Search(true);
                         break;
                     default:
                         MessageBox.Show("Invalid algorithm", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

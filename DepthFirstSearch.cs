@@ -24,7 +24,7 @@
             return _stack.Pop();
         }
 
-        public override bool NotFoundCondition()
+        public override bool CheckIfPathNotFound()
         {
             return _stack.Count == 0;
         }

@@ -6,7 +6,7 @@
 
         void AddNodeToFrontier(Node node);
 
-        bool NotFoundCondition();
+        bool CheckIfPathNotFound();
 
         Node GetNodeFromFrontier();
 

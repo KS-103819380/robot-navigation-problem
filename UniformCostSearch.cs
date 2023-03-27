@@ -1,17 +1,22 @@
 ﻿namespace Robot_Navigation_Problem
 {
-    internal abstract class InformedSearch : SearchAlgorithm
+    internal class UniformCostSearch : SearchAlgorithm
     {
         private readonly PriorityQueue<Node, int> _priorityQueue;
 
-        public InformedSearch(Environment environment) : base(environment)
+        public UniformCostSearch(Environment environment) : base(environment)
         {
             _priorityQueue = new PriorityQueue<Node, int>();
         }
 
         public override void AddNodeToFrontier(Node node)
         {
-            _priorityQueue.Enqueue(node, CalculateHeuristic(node));
+            _priorityQueue.Enqueue(node, node.Cost);
+        }
+
+        public override IEnumerable<Node> GetFrontier()
+        {
+            return _priorityQueue.UnorderedItems.Select(element => element.Element);
         }
 
         public override Node GetNodeFromFrontier()
@@ -28,12 +33,5 @@
         {
             return !node.Visited;
         }
-
-        public override IEnumerable<Node> GetFrontier()
-        {
-            return _priorityQueue.UnorderedItems.Select(element => element.Element);
-        }
-
-        protected abstract int CalculateHeuristic(Node node);
     }
 }
