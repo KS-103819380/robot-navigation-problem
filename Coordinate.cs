@@ -16,5 +16,10 @@
             x = coordinate.Item1;
             y = coordinate.Item2;
         }
+
+        public override string ToString()
+        {
+            return $"({x}, {y})";
+        }
     }
 }

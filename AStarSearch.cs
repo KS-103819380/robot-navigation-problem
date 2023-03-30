@@ -11,13 +11,25 @@
             List<Node> allGoalNodes = _environment.GetGoalNodes();
             //calculate the smallest manhattan distance between all node and the nearest goal node
             int minDistance = allGoalNodes.Select(goalNode => Math.Abs(goalNode.Coordinate.x - node.Coordinate.x) + Math.Abs(goalNode.Coordinate.y - node.Coordinate.y)).Min();
-            //return negative value because the priority queue dequeues the node with the highest priority value
-            return -(minDistance + node.Cost);
+            return minDistance + node.Cost;
         }
 
         protected override bool ShouldAddNodeToTree(Node neighbor)
         {
             return !neighbor.Visited;
+        }
+
+        protected override void AddNodeToTree(Node neighbor, Node currentNode)
+        {
+            //we only want to update the parent if the cost is lower (i.e., it is a more efficient path)
+            if (neighbor.Cost == 0 || neighbor.Cost > currentNode.Cost + 1)
+            {
+                neighbor.Cost = currentNode.Cost + 1;
+                neighbor.Parent = currentNode;
+            }
+            neighbor.InTree = true;
+            AddNodeToFrontier(neighbor);
+            AddNodeCount();
         }
     }
 }

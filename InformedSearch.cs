@@ -11,12 +11,22 @@
 
         protected override void AddNodeToFrontier(Node node)
         {
+            Console.WriteLine("Adding node to frontier: " + node.Coordinate + " with priority: " + CalculateHeuristic(node));
             _priorityQueue.Enqueue(node, CalculateHeuristic(node));
         }
 
         protected override Node GetNodeFromFrontier()
         {
-            return _priorityQueue.Dequeue();
+            Node node = _priorityQueue.Dequeue();
+            Console.WriteLine("----------------------");
+            Console.WriteLine("Dequeueing: " + node.Coordinate + " with priority: " + CalculateHeuristic(node));
+            Console.Write("Current frontier: ");
+            for (int i = 0; i < _priorityQueue.Count; i++)
+            {
+                Console.Write(_priorityQueue.UnorderedItems.ElementAt(i).Coordinate + " ");
+            }
+            Console.WriteLine();
+            return node;
         }
 
         protected override bool CheckIfPathNotFound()

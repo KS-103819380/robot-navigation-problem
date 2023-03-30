@@ -45,11 +45,7 @@
                 {
                     if (ShouldAddNodeToTree(neighbor))
                     {
-                        neighbor.Cost = currentNode.Cost + 1;
-                        neighbor.Parent = currentNode;
-                        neighbor.InTree = true;
-                        AddNodeToFrontier(neighbor);
-                        AddNodeCount();
+                        AddNodeToTree(neighbor, currentNode);
                         if (isGui) Gui.IncreaseNumberOfNodes();
                     }
                 }
@@ -72,6 +68,15 @@
         protected virtual List<Node> GetNeighbors(Node node)
         {
             return _environment.GetNeighbors(node);
+        }
+
+        protected virtual void AddNodeToTree(Node neighbor, Node currentNode)
+        {
+            neighbor.Cost = currentNode.Cost + 1;
+            neighbor.Parent = currentNode;
+            neighbor.InTree = true;
+            AddNodeToFrontier(neighbor);
+            AddNodeCount();
         }
 
         /// <summary>
@@ -110,7 +115,7 @@
             return path;
         }
 
-        private void AddNodeCount(int count = 1)
+        protected void AddNodeCount(int count = 1)
         {
             if (count < 0)
                 throw new Exception("Count cannot be negative");
