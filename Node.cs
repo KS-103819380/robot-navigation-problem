@@ -6,7 +6,7 @@
         private bool _visited = false;
         private bool _inTree = false;
         private Node? _parent = null;
-        private int _cost = 0;
+        private int _cost = int.MaxValue;
         private readonly Coordinate _coordinate;
 
         public NodeType Type 

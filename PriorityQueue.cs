@@ -4,7 +4,7 @@
     //More detailed about this issue can be found in the report
     public class PriorityQueue<T>
     {
-        private List<Tuple<T, int>> elements = new List<Tuple<T, int>>();
+        private List<(T, int)> elements = new List<(T, int)>();
 
         public int Count
         {
@@ -13,7 +13,7 @@
 
         public void Enqueue(T item, int priority)
         {
-            elements.Add(Tuple.Create(item, priority));
+            elements.Add((item, priority));
         }
 
         public T Dequeue()

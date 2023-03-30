@@ -20,6 +20,7 @@
         public string Search(bool isGui = false)
         {
             Node startNode = _environment.GetRobotNode();
+            startNode.Cost = 0;
             AddNodeToFrontier(startNode);
             AddNodeCount();
 

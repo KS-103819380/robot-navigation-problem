@@ -21,8 +21,8 @@
 
         protected override void AddNodeToTree(Node neighbor, Node currentNode)
         {
-            //we only want to update the parent if the cost is lower (i.e., it is a more efficient path)
-            if (neighbor.Cost == 0 || neighbor.Cost > currentNode.Cost + 1)
+            //we only want to update the parent if the updated cost is lower (i.e., it is a more efficient path)
+            if (neighbor.Cost > currentNode.Cost + 1)
             {
                 neighbor.Cost = currentNode.Cost + 1;
                 neighbor.Parent = currentNode;
