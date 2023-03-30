@@ -2,7 +2,7 @@
 {
     internal abstract class SearchAlgorithm : ISearchable
     {
-        public static readonly string NOT_FOUND = "No solution found.";
+        public const string NOT_FOUND = "No solution found.";
         protected readonly Environment _environment;
         private int _numberOfNodes;
 
@@ -23,7 +23,7 @@
             AddNodeToFrontier(startNode);
             AddNodeCount();
 
-            if (isGui) 
+            if (isGui)
                 Gui.IncreaseNumberOfNodes();
 
             while (!CheckIfPathNotFound())
@@ -38,7 +38,7 @@
 
                 if (currentNode.Type == NodeType.Goal)
                     return string.Join("; ", ConstructPath(currentNode)) + ";";
-                
+
                 currentNode.Visited = true;
                 List<Node> neighbors = GetNeighbors(currentNode);
                 foreach (Node neighbor in neighbors)
@@ -53,20 +53,21 @@
                         if (isGui) Gui.IncreaseNumberOfNodes();
                     }
                 }
+
             }
-            
+
             return NOT_FOUND;
         }
 
-        public abstract void AddNodeToFrontier(Node node);
+        protected abstract void AddNodeToFrontier(Node node);
 
-        public abstract bool CheckIfPathNotFound();
+        protected abstract bool CheckIfPathNotFound();
 
-        public abstract Node GetNodeFromFrontier();
+        protected abstract Node GetNodeFromFrontier();
 
-        public abstract bool ShouldAddNodeToTree(Node node);
+        protected abstract bool ShouldAddNodeToTree(Node neighbor);
 
-        public abstract IEnumerable<Node> GetFrontier();
+        protected abstract IEnumerable<Node> GetFrontier();
 
         protected virtual List<Node> GetNeighbors(Node node)
         {

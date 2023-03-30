@@ -9,27 +9,27 @@
             _queue = new Queue<Node>();
         }
 
-        public override void AddNodeToFrontier(Node node)
+        protected override void AddNodeToFrontier(Node node)
         {
             _queue.Enqueue(node);
         }
 
-        public override Node GetNodeFromFrontier()
+        protected override Node GetNodeFromFrontier()
         {
             return _queue.Dequeue();
         }
 
-        public override bool CheckIfPathNotFound()
+        protected override bool CheckIfPathNotFound()
         {
             return _queue.Count == 0;
         }
 
-        public override bool ShouldAddNodeToTree(Node node)
+        protected override bool ShouldAddNodeToTree(Node neighbor)
         {
-            return !node.Visited && !node.InTree;
+            return !neighbor.Visited && !neighbor.InTree;
         }
 
-        public override IEnumerable<Node> GetFrontier()
+        protected override IEnumerable<Node> GetFrontier()
         {
             return _queue;
         }

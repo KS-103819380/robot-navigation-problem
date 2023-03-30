@@ -69,7 +69,7 @@
         //state of the search algorithm
         private bool _environmentIsNew = true;
         private int _durationPerIteration = 500;
-        private int _iteration = 0;
+        private int _numberOfIterations = 0;
         private int _numberOfNodes = 0;
 
         public int DurationPerIteration
@@ -153,7 +153,7 @@
             ResetEnvironmentColor();
             _environmentIsNew = true;
 
-            _iteration = 0;
+            _numberOfIterations = 0;
             _iterationLabel.Text = "Iteration: 0";
 
             _numberOfNodes = 0;
@@ -196,6 +196,7 @@
                     {
                         e.Graphics.FillRectangle(_cellColors[i][j], _gridCells[i][j]);
                         e.Graphics.DrawRectangle(pen, _gridCells[i][j]);
+                        e.Graphics.DrawString($"{_environment.GetNode(j, i).Coordinate.x}, {_environment.GetNode(j, i).Coordinate.y}", new Font("Arial", 10), Brushes.Black, new PointF(_gridCells[i][j].X + 30, _gridCells[i][j].Y + 30));
                     }
                 }
             };
@@ -484,8 +485,8 @@
 
         public void IncrementIteration()
         {
-            _iteration++;
-            _iterationLabel.Text = $"Iteration: {_iteration}";
+            _numberOfIterations++;
+            _iterationLabel.Text = $"Iteration: {_numberOfIterations}";
         }
 
         public void IncreaseNumberOfNodes(int numberOfNodes)

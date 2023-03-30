@@ -9,27 +9,27 @@
             _stack = new Stack<Node>();
         }
 
-        public override bool ShouldAddNodeToTree(Node node)
+        protected override bool ShouldAddNodeToTree(Node neighbor)
         {
-            return !node.Visited;
+            return !neighbor.Visited;
         }
 
-        public override void AddNodeToFrontier(Node node)
+        protected override void AddNodeToFrontier(Node node)
         {
             _stack.Push(node);
         }
 
-        public override Node GetNodeFromFrontier()
+        protected override Node GetNodeFromFrontier()
         {
             return _stack.Pop();
         }
 
-        public override bool CheckIfPathNotFound()
+        protected override bool CheckIfPathNotFound()
         {
             return _stack.Count == 0;
         }
 
-        public override IEnumerable<Node> GetFrontier()
+        protected override IEnumerable<Node> GetFrontier()
         {
             return _stack;
         }
