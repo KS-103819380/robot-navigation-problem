@@ -17,7 +17,7 @@
             _numberOfNodes = 0;
         }
 
-        public string Search(bool isGui = false)
+        public virtual string Search(bool isGui = false)
         {
             Node startNode = _environment.GetRobotNode();
             startNode.Cost = 0;
@@ -85,10 +85,9 @@
         /// </summary>
         /// <param name="currentNode"></param>
         /// <returns>A list of path that contains element that are either "up", "down", "left", or "right"</returns>
-        private static List<string> ConstructPath(Node currentNode)
+        protected virtual List<string> ConstructPath(Node currentNode)
         {
             List<string> path = new List<string>();
-
             while (currentNode.Parent != null)
             {
                 (int, int) difference = currentNode.Parent - currentNode;
@@ -129,7 +128,7 @@
         /// <param name="startNode"></param>
         /// <param name="currentNode"></param>
         /// <param name="frontier"></param>
-        private void ColorGuiGrid(Node startNode, Node currentNode, IEnumerable<Node> frontier)
+        protected void ColorGuiGrid(Node startNode, Node currentNode, IEnumerable<Node> frontier)
         {
             Gui.IncrementIteration();
 
@@ -156,7 +155,7 @@
             (int xOffset, int yOffset) = (0, 0);
             foreach (string direction in path)
             {
-                Gui.ChangeCellColor(startNode.Coordinate.x + xOffset, startNode.Coordinate.y + yOffset, CustomBrush.Path);
+                Gui.ChangeCellColor(startNode.X + xOffset, startNode.Y + yOffset, CustomBrush.Path);
                 switch (direction)
                 {
                     case "up":

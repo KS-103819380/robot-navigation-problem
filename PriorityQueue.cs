@@ -4,7 +4,7 @@
     //More detailed about this issue can be found in the report
     public class PriorityQueue<T>
     {
-        private List<(T, int)> elements = new List<(T, int)>();
+        private readonly List<(T, int)> elements = new List<(T, int)>();
 
         public int Count
         {

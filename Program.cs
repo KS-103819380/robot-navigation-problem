@@ -42,6 +42,10 @@
                     case "ucs":
                         searchAlgorithm = new UniformCostSearch(e);
                         break;
+                    case "cus2":
+                    case "jps":
+                        searchAlgorithm = new JumpPointSearch(e);
+                        break;
                     case "gui":
                         Gui.Run(e);
                         break;

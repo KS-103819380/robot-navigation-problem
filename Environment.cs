@@ -79,17 +79,17 @@
         {
             List<Node> neighbors = new List<Node>();
             //get neighbors above
-            if (node.Coordinate.y - 1 >= 0 && _grid[node.Coordinate.y - 1][node.Coordinate.x].Type != NodeType.Wall)
-                neighbors.Add(_grid[node.Coordinate.y - 1][node.Coordinate.x]);
+            if (node.Y - 1 >= 0 && _grid[node.Y - 1][node.X].Type != NodeType.Wall)
+                neighbors.Add(_grid[node.Y - 1][node.X]);
             //get neighbors to the left
-            if (node.Coordinate.x - 1 >= 0 && _grid[node.Coordinate.y][node.Coordinate.x - 1].Type != NodeType.Wall)
-                neighbors.Add(_grid[node.Coordinate.y][node.Coordinate.x - 1]);
+            if (node.X - 1 >= 0 && _grid[node.Y][node.X - 1].Type != NodeType.Wall)
+                neighbors.Add(_grid[node.Y][node.X - 1]);
             //get neighbors below
-            if (node.Coordinate.y + 1 < _height && _grid[node.Coordinate.y + 1][node.Coordinate.x].Type != NodeType.Wall)
-                neighbors.Add(_grid[node.Coordinate.y + 1][node.Coordinate.x]);
+            if (node.Y + 1 < _height && _grid[node.Y + 1][node.X].Type != NodeType.Wall)
+                neighbors.Add(_grid[node.Y + 1][node.X]);
             //get neighbors to the right
-            if (node.Coordinate.x + 1 < _width && _grid[node.Coordinate.y][node.Coordinate.x + 1].Type != NodeType.Wall)
-                neighbors.Add(_grid[node.Coordinate.y][node.Coordinate.x + 1]);
+            if (node.X + 1 < _width && _grid[node.Y][node.X + 1].Type != NodeType.Wall)
+                neighbors.Add(_grid[node.Y][node.X + 1]);
             return neighbors;
         }
 

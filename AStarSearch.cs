@@ -10,7 +10,7 @@
         {
             List<Node> allGoalNodes = _environment.GetGoalNodes();
             //calculate the smallest manhattan distance between all node and the nearest goal node
-            int minDistance = allGoalNodes.Select(goalNode => Math.Abs(goalNode.Coordinate.x - node.Coordinate.x) + Math.Abs(goalNode.Coordinate.y - node.Coordinate.y)).Min();
+            int minDistance = allGoalNodes.Select(goalNode => Math.Abs(goalNode.X - node.X) + Math.Abs(goalNode.Y - node.Y)).Min();
             return minDistance + node.Cost;
         }
 

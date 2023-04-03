@@ -39,6 +39,16 @@
             set => _cost = value;
         }
 
+        public int X
+        {
+            get => _coordinate.x;
+        }
+
+        public int Y
+        {
+            get => _coordinate.y;
+        }
+
         public Coordinate Coordinate => _coordinate;
 
         public Node(NodeType type, Coordinate coordinate)
@@ -55,8 +65,8 @@
 
         public static (int x, int y) operator-(Node node1, Node node2)
         {
-            int x = node2.Coordinate.x - node1.Coordinate.x;
-            int y = node2.Coordinate.y - node1.Coordinate.y;
+            int x = node2.X - node1.X;
+            int y = node2.Y - node1.Y;
             return (x, y);
         }
 
@@ -65,7 +75,7 @@
             _visited = false;
             _inTree = false;
             _parent = null;
-            _cost = 0;
+            _cost = int.MaxValue;
         }
     }
 }

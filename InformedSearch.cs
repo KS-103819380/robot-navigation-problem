@@ -2,7 +2,7 @@
 {
     internal abstract class InformedSearch : SearchAlgorithm
     {
-        private readonly PriorityQueue<Node> _priorityQueue;
+        protected readonly PriorityQueue<Node> _priorityQueue;
 
         public InformedSearch(Environment environment) : base(environment)
         {
@@ -16,8 +16,7 @@
 
         protected override Node GetNodeFromFrontier()
         {
-            Node node = _priorityQueue.Dequeue();
-            return node;
+            return _priorityQueue.Dequeue();
         }
 
         protected override bool CheckIfPathNotFound()

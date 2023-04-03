@@ -17,6 +17,13 @@
             y = coordinate.Item2;
         }
 
+        public static (int x, int y) operator -(Coordinate coordinate1, Coordinate coordinate2)
+        {
+            int x = coordinate1.x - coordinate2.x;
+            int y = coordinate1.y - coordinate2.y;
+            return (x, y);
+        }
+
         public override string ToString()
         {
             return $"({x}, {y})";

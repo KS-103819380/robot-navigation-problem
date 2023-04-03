@@ -196,7 +196,7 @@
                     {
                         e.Graphics.FillRectangle(_cellColors[i][j], _gridCells[i][j]);
                         e.Graphics.DrawRectangle(pen, _gridCells[i][j]);
-                        e.Graphics.DrawString($"{_environment.GetNode(j, i).Coordinate.x}, {_environment.GetNode(j, i).Coordinate.y}", new Font("Arial", 10), Brushes.Black, new PointF(_gridCells[i][j].X + 30, _gridCells[i][j].Y + 30));
+                        e.Graphics.DrawString($"{_environment.GetNode(j, i).X}, {_environment.GetNode(j, i).Y}", new Font("Arial", 10), Brushes.Black, new PointF(_gridCells[i][j].X + 30, _gridCells[i][j].Y + 30));
                     }
                 }
             };
@@ -234,7 +234,7 @@
                 Text = "Search Algorithm:",
                 AutoSize = true
             };
-            _searchAlgorithmDropdown.Items.AddRange(new object[] { "dfs", "bfs", "gbfs", "as", "ucs" });
+            _searchAlgorithmDropdown.Items.AddRange(new object[] { "dfs", "bfs", "gbfs", "as", "ucs", "jps" });
             _searchAlgorithmDropdown.SelectedIndex = 0;
 
             _navbar.Controls.Add(searchAlgorithmDropdownLabel);
@@ -459,6 +459,10 @@
                     case "ucs":
                         UniformCostSearch ucs = new UniformCostSearch(_environment);
                         path = ucs.Search(true);
+                        break;
+                    case "jps":
+                        JumpPointSearch jps = new JumpPointSearch(_environment);
+                        path = jps.Search(true);
                         break;
                     default:
                         MessageBox.Show("Invalid algorithm", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
