@@ -2,7 +2,7 @@
   "profiles": {
     "Robot Navigation Problem": {
       "commandName": "Project",
-      "commandLineArgs": "test.txt cus2"
+      "commandLineArgs": "test.txt gui"
     }
   }
 }

@@ -109,7 +109,14 @@
                 return null;
             }
 
-            return Jump(_environment.GetNode(neighbor.X + dx, neighbor.Y + dy), neighbor);
+            try
+            {
+                return Jump(_environment.GetNode(neighbor.X + dx, neighbor.Y + dy), neighbor);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         protected override List<Node> GetNeighbors(Node node)
