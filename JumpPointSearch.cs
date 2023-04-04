@@ -6,14 +6,14 @@
         {
         }
 
-        public override string Search(bool isGui = false)
+        public override string Search()
         {
             Node startNode = _environment.GetRobotNode();
             startNode.Cost = 0;
             AddNodeToFrontier(startNode);
             AddNodeCount();
 
-            if (isGui)
+            if (Gui.GuiModeEnabled)
                 Gui.IncreaseNumberOfNodes();
 
             while (!CheckIfPathNotFound())
@@ -21,7 +21,7 @@
                 Node currentNode = GetNodeFromFrontier();
                 currentNode.Visited = true;
 
-                if (isGui)
+                if (Gui.GuiModeEnabled)
                     ColorGuiGrid(startNode, currentNode, GetFrontier());
 
                 if (currentNode.Type == NodeType.Goal)

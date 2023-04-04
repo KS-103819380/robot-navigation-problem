@@ -2,6 +2,6 @@
 {
     internal interface ISearchable
     {
-        string Search(bool isGui);
+        string Search();
     }
 }

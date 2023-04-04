@@ -17,14 +17,14 @@
             _numberOfNodes = 0;
         }
 
-        public virtual string Search(bool isGui = false)
+        public virtual string Search()
         {
             Node startNode = _environment.GetRobotNode();
             startNode.Cost = 0;
             AddNodeToFrontier(startNode);
             AddNodeCount();
 
-            if (isGui)
+            if (Gui.GuiModeEnabled)
                 Gui.IncreaseNumberOfNodes();
 
             while (!CheckIfPathNotFound())
@@ -34,7 +34,7 @@
                 if (currentNode.Visited)
                     continue;
 
-                if (isGui)
+                if (Gui.GuiModeEnabled)
                     ColorGuiGrid(startNode, currentNode, GetFrontier());
 
                 if (currentNode.Type == NodeType.Goal)
@@ -47,7 +47,7 @@
                     if (ShouldAddNodeToTree(neighbor))
                     {
                         AddNodeToTree(neighbor, currentNode);
-                        if (isGui) Gui.IncreaseNumberOfNodes();
+                        if (Gui.GuiModeEnabled) Gui.IncreaseNumberOfNodes();
                     }
                 }
 

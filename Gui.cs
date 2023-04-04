@@ -4,6 +4,8 @@
     {
         private static GridWindow? _gridWindow = null;
 
+        public static bool GuiModeEnabled { get; private set; } = false;
+
         public static int DurationPerIteration
         {
             get => _gridWindow?.DurationPerIteration ?? 1000;
@@ -11,6 +13,7 @@
         
         public static void Run(Environment e)
         {
+            GuiModeEnabled = true;
             if (_gridWindow == null)
                 _gridWindow = new GridWindow(e);
             Application.Run(_gridWindow);
@@ -442,27 +445,27 @@
                 {
                     case "dfs":
                         DepthFirstSearch dfs = new DepthFirstSearch(_environment);
-                        path = dfs.Search(true);
+                        path = dfs.Search();
                         break;
                     case "bfs":
                         BreadthFirstSearch bfs = new BreadthFirstSearch(_environment);
-                        path = bfs.Search(true);
+                        path = bfs.Search();
                         break;
                     case "gbfs":
                         GreedyBestFirstSearch gbfs = new GreedyBestFirstSearch(_environment);
-                        path = gbfs.Search(true);
+                        path = gbfs.Search();
                         break;
                     case "as":
                         AStarSearch astar = new AStarSearch(_environment);
-                        path = astar.Search(true);
+                        path = astar.Search();
                         break;
                     case "ucs":
                         UniformCostSearch ucs = new UniformCostSearch(_environment);
-                        path = ucs.Search(true);
+                        path = ucs.Search();
                         break;
                     case "jps":
                         JumpPointSearch jps = new JumpPointSearch(_environment);
-                        path = jps.Search(true);
+                        path = jps.Search();
                         break;
                     default:
                         MessageBox.Show("Invalid algorithm", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
