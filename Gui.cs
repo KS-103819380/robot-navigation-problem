@@ -295,7 +295,7 @@
             _gridWidthNumericUpDown.Value = _environment.Width;
             Label gridWidthLabel = new Label()
             {
-                Text = $"Number of columns ({_gridWidthNumericUpDown.Minimum} - {_gridWidthNumericUpDown.Maximum}):",
+                Text = $"Number of columns (min {_gridWidthNumericUpDown.Minimum}):",
                 AutoSize = true,
                 Margin = new Padding(0, 20, 0, 0)
             };
@@ -305,7 +305,7 @@
             _gridHeightNumericUpDown.Value = _environment.Height;
             Label gridHeightLabel = new Label()
             {
-                Text = $"Number of columns ({_gridHeightNumericUpDown.Minimum} - {_gridHeightNumericUpDown.Maximum}):",
+                Text = $"Number of columns (min {_gridHeightNumericUpDown.Minimum}):",
                 AutoSize = true
             };
 
