@@ -31,6 +31,7 @@
                 foreach (Node successor in successors)
                 {
                     _priorityQueue.Enqueue(successor, CalculateHeuristic(successor));
+                    AddNodeCount();
                     Gui.IncreaseNumberOfNodes();
                 }
             }
@@ -54,7 +55,7 @@
                 int manhattanDistance = Math.Abs(jumpNode.X - currentNode.X) + Math.Abs(jumpNode.Y - currentNode.Y);
                 int newCost = currentNode.Cost + manhattanDistance;
 
-                if (!jumpNode.Visited || newCost < jumpNode.Cost)
+                if (!jumpNode.Visited && newCost < jumpNode.Cost)
                 {
                     jumpNode.Cost = newCost;
                     jumpNode.Parent = currentNode;
@@ -216,6 +217,81 @@
             }
             path.Reverse();
             return path;
+        }
+
+        protected override void ColorGuiGrid(Node startNode, Node currentNode, IEnumerable<Node> frontier)
+        {
+            Gui.IncrementIteration();
+
+            //set every node to their default color, this is added because the color of the nodes in previous exploring path will not reset (it will stay yellow)
+            for (int x = 0; x < _environment.Width; x++)
+            {
+                for (int y = 0; y < _environment.Height; y++)
+                {
+                    switch (_environment.GetNode(x, y).Type)
+                    {
+                        case NodeType.Wall:
+                            Gui.ChangeCellColor(x, y, CustomBrush.Wall);
+                            break;
+                        case NodeType.Goal:
+                            Gui.ChangeCellColor(x, y, CustomBrush.Goal);
+                            break;
+                        default:
+                            Gui.ChangeCellColor(x, y, CustomBrush.Empty);
+                            break;
+                    }
+                }
+            }
+
+            //set explored nodes to blue
+            for (int i = 0; i < _environment.Height; i++)
+            {
+                for (int j = 0; j < _environment.Width; j++)
+                {
+                    Node node = _environment.GetNode(j, i);
+                    if (node.Visited)
+                        Gui.ChangeCellColor(node.Coordinate, CustomBrush.Visited);
+                }
+            }
+
+            //set frontier to purple
+            foreach (Node node in frontier)
+            {
+                if (node.Type != NodeType.Goal)
+                    Gui.ChangeCellColor(node.Coordinate, CustomBrush.ToBeExplored);
+            }
+
+            //set current exploring path to yellow
+            List<string> path = ConstructPath(currentNode);
+            (int xOffset, int yOffset) = (0, 0);
+            foreach (string direction in path)
+            {
+                Gui.ChangeCellColor(startNode.X + xOffset, startNode.Y + yOffset, CustomBrush.Path);
+                switch (direction)
+                {
+                    case "up":
+                        yOffset--;
+                        break;
+                    case "down":
+                        yOffset++;
+                        break;
+                    case "left":
+                        xOffset--;
+                        break;
+                    case "right":
+                        xOffset++;
+                        break;
+                }
+            }
+
+            //set start node to orange
+            Gui.ChangeCellColor(startNode.Coordinate, CustomBrush.StartNode);
+
+            //set current node to red
+            Gui.ChangeCellColor(currentNode.Coordinate, CustomBrush.CurrentNode);
+
+            Application.DoEvents();
+            Thread.Sleep(Gui.DurationPerIteration);
         }
     }
 }

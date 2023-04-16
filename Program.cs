@@ -1,4 +1,6 @@
-﻿namespace Robot_Navigation_Problem
+﻿using System.Diagnostics;
+
+namespace Robot_Navigation_Problem
 {
     internal class Program
     {
@@ -57,16 +59,30 @@
 
                 //if gui is not selected, print search result to console
                 if (searchAlgorithm == null) return;
+
+                //var stopwatch = Stopwatch.StartNew();
+
                 //perform the search
                 string path = searchAlgorithm.Search();
+
                 //print arguments passed and number of nodes in the search tree
                 Console.WriteLine(filename + " " + args[1] + " " + searchAlgorithm.NumberOfNodes);
+
                 //print the path
                 Console.WriteLine(path);
+
+                //for testing purposes only
+                //stopwatch.Stop();
+                //Console.WriteLine("Width: " + e.Width);
+                //Console.WriteLine("Height: " + e.Height);
+                //Console.WriteLine("Path Length: " + path.Split("; ").Length);
+                //Console.WriteLine("Time taken: " + stopwatch.ElapsedMilliseconds + "ms");
+                //Console.WriteLine(GC.GetTotalMemory(false) / 1024 + "KB");
             }
             catch(Exception e) // catch all exceptions thrown by the program (whether it is an expected exception or not)
             {
                 Console.WriteLine("Error: " + e.Message + " Please try again.");
+                Console.WriteLine(e.StackTrace);
                 System.Environment.Exit(1); //ERROR_INVALID_FUNCTION (https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-)
             }
         }

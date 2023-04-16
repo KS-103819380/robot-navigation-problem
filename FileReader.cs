@@ -17,6 +17,77 @@
                 System.Environment.Exit(2); //ERROR_FILE_NOT_FOUND (https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes--0-499-)
             }
 
+            //https://www.movingai.com/benchmarks/formats.html
+            if (filename.EndsWith(".map"))
+            {
+                //format of .map file
+                /*
+                 * type octile
+                 * height y
+                 * width x
+                 * map
+                 * row 0 map
+                 * row 1 map...
+                 */
+                int height = int.Parse(text[1].Split(" ")[1]);
+                int width = int.Parse(text[2].Split(" ")[1]);
+                Environment environment = new Environment(width, height);
+                string[] rows = text.Skip(4).ToArray();
+                for (int i = 0; i < rows.Length; i++)
+                {
+                    string row = rows[i];
+                    for (int j = 0; j < row.Length; j++)
+                    {
+                        switch (rows[i][j])
+                        {
+                            case '@':
+                            case 'O':
+                            case 'T':
+                                environment.GetNode(j, i).Type = NodeType.Wall;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                //find first empty cell and set it as start
+                bool foundStart = false;
+                for (int i = 0; i < height; i++)
+                {
+                    for (int j = 0; j < width; j++)
+                    {
+                        Node currentNode = environment.GetNode(j, i);
+                        if (currentNode.Type == NodeType.Empty)
+                        {
+                            currentNode.Type = NodeType.Robot;
+                            environment.RobotNode = currentNode;
+                            foundStart = true;
+                            break;
+                        }
+                    }
+                    if (foundStart) break;
+                }
+
+                //find last empty cell and set it as goal
+                bool foundGoal = false;
+                for (int i = height - 1; i >= 0; i--)
+                {
+                    for (int j = width - 1; j >= 0; j--)
+                    {
+                        Node currentNode = environment.GetNode(j, i);
+                        if (currentNode.Type == NodeType.Empty)
+                        {
+                            currentNode.Type = NodeType.Goal;
+                            environment.GoalNodes.Add(currentNode);
+                            foundGoal = true;
+                            break;
+                        }
+                    }
+                    if (foundGoal) break;
+                }
+                return environment;
+            }
+
             //extract the metadata of the environment as string
             string gridSizeString = text[0];
             string robotLocString = text[1];

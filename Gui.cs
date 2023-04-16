@@ -8,7 +8,7 @@
 
         public static int DurationPerIteration
         {
-            get => _gridWindow?.DurationPerIteration ?? 1000;
+            get => _gridWindow?.DurationPerIteration ?? 500;
         }
         
         public static void Run(Environment e)
@@ -291,7 +291,7 @@
         private void InitializeGridDimensionNumericUpDown()
         {
             _gridWidthNumericUpDown.Minimum = 2;
-            _gridWidthNumericUpDown.Maximum = 20;
+            _gridWidthNumericUpDown.Maximum = int.MaxValue;
             _gridWidthNumericUpDown.Value = _environment.Width;
             Label gridWidthLabel = new Label()
             {
@@ -301,7 +301,7 @@
             };
 
             _gridHeightNumericUpDown.Minimum = 2;
-            _gridHeightNumericUpDown.Maximum = 20;
+            _gridHeightNumericUpDown.Maximum = int.MaxValue;
             _gridHeightNumericUpDown.Value = _environment.Height;
             Label gridHeightLabel = new Label()
             {

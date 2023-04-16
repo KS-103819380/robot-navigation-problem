@@ -5,10 +5,31 @@
         private readonly List<List<Node>> _grid;
         private int _width;
         private int _height;
+        private Node _robotNode;
+        private readonly List<Node> _goalNodes;
 
         public int Width => _width;
         public int Height => _height;
+        public Node RobotNode { get => _robotNode; set => _robotNode = value; }
+        public List<Node> GoalNodes => _goalNodes;
 
+        public Environment(int width, int height)
+        {
+            _width = width;
+            _height = height;
+            _robotNode = new Node(NodeType.Robot, 0, 0);
+            _goalNodes = new List<Node>();
+            _grid = new List<List<Node>>();
+            for (int i = 0; i < height; i++)
+            {
+                _grid.Add(new List<Node>());
+                for (int j = 0; j < width; j++)
+                {
+                    _grid[i].Add(new Node(NodeType.Empty, j, i));
+                }
+            }
+        }
+        
         public Environment(int width, int height, Coordinate robotLoc, List<Coordinate> goalLoc, List<Coordinate> wallLocs)
         {
             //initialize width and height of the environment
@@ -31,10 +52,13 @@
             }
             //set robot location
             _grid[robotLoc.y][robotLoc.x].Type = NodeType.Robot;
+            _robotNode = _grid[robotLoc.y][robotLoc.x];
             //set goal locations
+            _goalNodes = new List<Node>();
             foreach (Coordinate goal in goalLoc)
             {
                 _grid[goal.y][goal.x].Type = NodeType.Goal;
+                _goalNodes.Add(_grid[goal.y][goal.x]);
             }
             //set wall locations
             foreach (Coordinate wall in wallLocs)
@@ -42,32 +66,29 @@
                 _grid[wall.y][wall.x].Type = NodeType.Wall;
             } 
         }
- 
-        public Node GetRobotNode()
-        { 
+
+        public override string ToString()
+        {
+            string output = "";
             for (int i = 0; i < _height; i++)
             {
                 for (int j = 0; j < _width; j++)
                 {
-                    if (_grid[i][j].Type == NodeType.Robot)
-                        return _grid[i][j];
+                    output += _grid[i][j].Type.ToString()[0];
                 }
+                output += "\n";
             }
-            throw new Exception("Robot not found");
+            return output;
+        }
+
+        public Node GetRobotNode()
+        {
+            return _robotNode;
         }
 
         public List<Node> GetGoalNodes()
         {
-            List<Node> goalNodes = new List<Node>();
-            for (int i = 0; i < _height; i++)
-            {
-                for (int j = 0; j < _width; j++)
-                {
-                    if (_grid[i][j].Type == NodeType.Goal)
-                        goalNodes.Add(_grid[i][j]);
-                }
-            }
-            return goalNodes;
+            return _goalNodes;
         }
 
         /// <summary>
@@ -125,16 +146,22 @@
                 case NodeType.Robot:
                     currentRobotNode.Type = nodeToBeChanged.Type;
                     nodeToBeChanged.Type = NodeType.Robot;
+                    _robotNode = nodeToBeChanged;
                     break;
                 case NodeType.Goal:
                     //if the node is currently a robot, swap the robot and goal
                     if (nodeToBeChanged.Type == NodeType.Robot)
                     {
                         currentRobotNode.Type = NodeType.Goal;
+                        _goalNodes.Add(currentRobotNode);
                         nodeToBeChanged.Type = NodeType.Robot;
+                        _robotNode = nodeToBeChanged;
                     }
                     else
+                    {
                         nodeToBeChanged.Type = NodeType.Goal;
+                        _goalNodes.Add(nodeToBeChanged);
+                    }
                     break;
                 case NodeType.Wall:
                     //if the node is currently a robot, swap the robot and wall
@@ -142,13 +169,27 @@
                     {
                         currentRobotNode.Type = NodeType.Wall;
                         nodeToBeChanged.Type = NodeType.Robot;
+                        _robotNode = nodeToBeChanged;
+                    }
+                    //if the node is currently a goal, remove it from the list of goals
+                    else if (nodeToBeChanged.Type == NodeType.Goal)
+                    {
+                        //if there is only 1 goal, throw an exception
+                        if (GetGoalNodes().Count == 1)
+                            throw new Exception("Environment must have at least 1 goal");
+                        _goalNodes.Remove(nodeToBeChanged);
+                        nodeToBeChanged.Type = NodeType.Wall;
                     }
                     else
+                    {
                         nodeToBeChanged.Type = NodeType.Wall;
+                    }
                     break;
                 case NodeType.Empty:
                     if (nodeToBeChanged.Type == NodeType.Robot)
                         throw new Exception("Environment must have 1 robot. Please change the robot's location before removing it.");
+                    if (nodeToBeChanged.Type == NodeType.Goal)
+                        _goalNodes.Remove(nodeToBeChanged);
                     nodeToBeChanged.Type = NodeType.Empty;
                     break;
                 default:

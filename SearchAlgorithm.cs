@@ -128,7 +128,7 @@
         /// <param name="startNode"></param>
         /// <param name="currentNode"></param>
         /// <param name="frontier"></param>
-        protected void ColorGuiGrid(Node startNode, Node currentNode, IEnumerable<Node> frontier)
+        protected virtual void ColorGuiGrid(Node startNode, Node currentNode, IEnumerable<Node> frontier)
         {
             Gui.IncrementIteration();
 
